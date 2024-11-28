@@ -78,7 +78,7 @@ class BookspiderSpider(scrapy.Spider):
         self.cursor.execute(insert_query, (name, author, price, error))
         self.conn.commit()
 
-    def close(self, reason):
+    def closed(self, reason):
         """Закрытие соединения с базой данных после завершения работы"""
         self.cursor.close()
         self.conn.close()
