@@ -3,6 +3,7 @@ import psycopg2
 from scrapy.exceptions import DropItem
 
 
+
 class BookspiderSpider(scrapy.Spider):
     name = "bookspider"
     allowed_domains = ["www.bookvoed.ru"]
@@ -11,12 +12,15 @@ class BookspiderSpider(scrapy.Spider):
     def __init__(self, *args, **kwargs):
         super(BookspiderSpider, self).__init__(*args, **kwargs)
         
+        db_host_ip = os.getenv("DB_HOST_IP")
+        db_password = os.getenv("DB_PASSWORD")
+
         # Подключение к базе данных PostgreSQL
         self.conn = psycopg2.connect(
             dbname="web_crawler",  # Имя базы данных
             user="crawler_user",   # Имя пользователя
-            password="your_password_here",  # Пароль
-            host="postgres_host_here",  # Хост PostgreSQL
+            password=db_password ,  # Пароль
+            host=db_host_ip,  # Хост PostgreSQL
             port="5432"  # Порт PostgreSQL
         )
         self.cursor = self.conn.cursor()
@@ -82,4 +86,4 @@ class BookspiderSpider(scrapy.Spider):
         """Закрытие соединения с базой данных после завершения работы"""
         self.cursor.close()
         self.conn.close()
-        super(BookspiderSpider, self).close(reason)
+        super(BookspiderSpider, self).closed(reason)
