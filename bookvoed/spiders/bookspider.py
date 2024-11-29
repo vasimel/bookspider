@@ -11,17 +11,16 @@ class BookspiderSpider(scrapy.Spider):
 
     def __init__(self, *args, **kwargs):
         super(BookspiderSpider, self).__init__(*args, **kwargs)
-        
-        db_host_ip = os.getenv("DB_HOST_IP")
-        db_password = os.getenv("DB_PASSWORD")
 
         # Подключение к базе данных PostgreSQL
         self.conn = psycopg2.connect(
+            host=os.getenv("DB_HOST"),  # Хост PostgreSQL
+            port="6432"  # Порт PostgreSQL
             dbname="web_crawler",  # Имя базы данных
             user="crawler_user",   # Имя пользователя
-            password=db_password ,  # Пароль
-            host=db_host_ip,  # Хост PostgreSQL
-            port="5432"  # Порт PostgreSQL
+            password=os.getenv("DB_PASSWORD") ,  # Пароль
+            sslmode=verify-full
+            target_session_attrs=read-write
         )
         self.cursor = self.conn.cursor()
 
