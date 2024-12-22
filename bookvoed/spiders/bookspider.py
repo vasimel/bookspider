@@ -1,13 +1,16 @@
-import scrapy
 import psycopg2
 from scrapy.exceptions import DropItem
 import os
+from scrapy_redis.spiders import RedisSpider
+import re
+import logging
 
 
-class BookspiderSpider(scrapy.Spider):
+class BookspiderSpider(RedisSpider):
     name = "bookspider"
-    allowed_domains = ["www.bookvoed.ru"]
-    start_urls = ["https://www.bookvoed.ru/catalog"]
+    #allowed_domains = ["www.bookvoed.ru"]
+    #start_urls = ["https://www.bookvoed.ru/catalog"]
+    redis_key = 'bookspider:start_urls'
 
     def __init__(self, *args, **kwargs):
         super(BookspiderSpider, self).__init__(*args, **kwargs)
