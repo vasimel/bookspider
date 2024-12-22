@@ -97,4 +97,4 @@ DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
 SCHEDULER = "scrapy_redis.scheduler.Scheduler"
 SCHEDULER_PERSIST = True
 
-REDIS_URL = "redis://localhost:6379"
+REDIS_HOST=os.getenv("REDIS_HOST")
